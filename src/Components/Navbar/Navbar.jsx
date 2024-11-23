@@ -34,7 +34,7 @@ const Navbar = () => {
         <figure>
           <img
             className="w-24"
-            src="../../../Image/Abstract_Colorful_Technology_Solutions_Professional_Logo__3_-removebg-preview.png"
+            src="./logo.png"
             alt=""
           />
         </figure>
@@ -47,7 +47,7 @@ const Navbar = () => {
       <div>
         <figure >
           <img
-            src="../../../Image/Abstract_Colorful_Technology_Solutions_Professional_Logo__3_-removebg-preview.png"
+            src="./logo.png"
             alt="Logo"
             onClick={toggleSidebar}
             className="w-24 cursor-pointer"

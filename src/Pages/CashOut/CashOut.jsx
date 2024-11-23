@@ -1,16 +1,13 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { FaArrowRight } from "react-icons/fa";
-import { FaArrowLeft, FaCopy } from "react-icons/fa6";
-import { IoCallOutline } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import Number from "../../Components/Number/Number";
-import Amount from "../../Components/Amount/Amount";
-import Pin from "../../Components/Pin/Pin";
-import TapToHold from "../../Components/TapToHold/TapToHold";
-import SendMoneySuccess from "../../Components/SenMoneySuccess/SendMoneySuccess";
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+import AmountStep from "../../Components/CashOut/AmountCash/Amount";
+import Pin from "../../Components/CashOut/PinCash/Pin";
+import TapToHold from "../../Components/CashOut/TapToHold/TaptoHold";
+import CashOutSuccess from "../../Components/CashOut/CashOutSuccess/CashOutSuccess";
 
-const SendMoney = () => {
+const CashOut = () => {
   const [step, setStep] = useState(1);
   const [number, setNumber] = useState("");
   const [amount, setAmount] = useState("");
@@ -49,38 +46,15 @@ const SendMoney = () => {
       navigate("/");
     }
   };
-  // console.log(amount);
-  // const handleTapAndHold = () => {
-  //   setLoading(true);
-  //   setStatus("");
-
-  //   setTimeout(() => {
-  //     const isSuccess = Math.random() > 0.2; // 80% success rate
-  //     setLoading(false);
-  //     setStatus(
-  //       isSuccess ? "Money Sent Successfully!" : "Failed to Send Money."
-  //     );
-  //     if (isSuccess) {
-  //       setStep(1); // Reset form after success
-  //       setNumber("");
-  //       setAmount("");
-  //       setPin("");
-  //     }
-  //   }, 5000); // Hold for 5 seconds
-  // };
   return (
     <div className="flex flex-col items-center justify-start max-w-md mx-auto">
       <div className="flex w-full justify-between items-center bg-green-500 text-white px-3">
         <button onClick={handelPrevBtn}>
           <FaArrowLeft className="text-2xl" />
         </button>
-        <h2 className="text-lg font-semibold ">Send Money</h2>
+        <h2 className="text-lg font-semibold ">Cash Out</h2>
         <figure>
-          <img
-            className="w-16"
-            src="./logo.png"
-            alt=""
-          />
+          <img className="w-16" src="./logo.png" alt="" />
         </figure>
       </div>
       <div className="w-full p-6">
@@ -95,7 +69,7 @@ const SendMoney = () => {
 
         {/* Step 2: Enter Amount */}
         {step === 2 && (
-          <Amount
+          <AmountStep
             number={number}
             amount={amount}
             setAmount={setAmount}
@@ -109,8 +83,6 @@ const SendMoney = () => {
             number={number}
             amount={amount}
             pin={pin}
-            note={note}
-            setNote={setNote}
             setPin={setPin}
             handleNext={handleNext}
           />
@@ -118,19 +90,17 @@ const SendMoney = () => {
 
         {/* Step 4: Tap and Hold */}
         {step === 4 && (
-          <TapToHold
-            handelPrevBtn={handelPrevBtn}
-            handleHoldEnd={handleHoldEnd}
-            handleHoldStart={handleHoldStart}
-            note={note}
-            number={number}
-            isSending={isSending}
-          />
-        )}
+            <TapToHold
+              handelPrevBtn={handelPrevBtn}
+              handleHoldEnd={handleHoldEnd}
+              handleHoldStart={handleHoldStart}
+              note={note}
+              number={number}
+              isSending={isSending}
+            />
+          )}
         {/* Sen money successful */}
-        {step === 5 && (
-       <SendMoneySuccess note={note} number={number}/>
-        )}
+        {step === 5 && <CashOutSuccess number={number} />}
 
         {/* Status Message */}
         {status && (
@@ -149,4 +119,4 @@ const SendMoney = () => {
   );
 };
 
-export default SendMoney;
+export default CashOut;

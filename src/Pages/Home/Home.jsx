@@ -14,12 +14,12 @@ const Home = () => {
           {/* <div>
           <p>Mobile Recharge</p>
         </div> */}
-          <div className="flex flex-col items-center">
+          <Link to="/cash-out" className="flex flex-col items-center">
             <span class="material-symbols-outlined text-3xl text-green-500">
               currency_exchange
             </span>
             <p>Cash Out</p>
-          </div>
+          </Link>
           <div className="flex flex-col items-center">
             <span className="material-symbols-outlined text-3xl text-green-500">
               payments

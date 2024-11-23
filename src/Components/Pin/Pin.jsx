@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaLock } from 'react-icons/fa6';
 
 const Pin = ({number,amount,note,pin,setNote,setPin,handleNext}) => {
     return (
@@ -39,7 +40,7 @@ const Pin = ({number,amount,note,pin,setNote,setPin,handleNext}) => {
           <input
             type="text"
             maxLength={50}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-pink-200"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none border-none"
             placeholder="Add a note"
             value={note}
             onChange={(e) => setNote(e.target.value)}
@@ -52,19 +53,30 @@ const Pin = ({number,amount,note,pin,setNote,setPin,handleNext}) => {
           <label className="block text-gray-500  font-bold mb-2">
             Enter PIN
           </label>
-          <input
-            type="password"
-            value={pin}
-            onChange={(e) => setPin(e.target.value)}
-            maxLength={4}
-            className="w-full p-2 border border-none text-center text-xl focus:border-none"
-            placeholder="••••"
-          />
+          <div className="flex items-center mt-3">
+            <span className="text-green-500 text-xl">
+              <FaLock />
+            </span>
+            <input
+              type="password"
+              value={pin}
+              onChange={(e) => setPin(e.target.value)}
+              maxLength={4}
+              className="w-full p-2 border border-none text-center text-xl focus:outline-none"
+              placeholder="••••"
+            />
+          </div>
         </div>
 
         {/* Confirm PIN Button */}
         <button
-          className="w-full py-3 bg-green-500 text-white font-bold rounded shadow-md hover:bg-green-600"
+          // className="w-full py-3 bg-green-500 text-white font-bold rounded shadow-md hover:bg-green-600"
+          className={`w-full py-3 bg-green-500 text-white font-bold rounded shadow-md ${
+            pin.length > 0
+              ? "bg-green-500 text-white"
+              : "bg-gray-400 text-gray-300"
+            }`}
+          disabled={!pin.length>0}
           onClick={handleNext}
         >
           Confirm PIN
