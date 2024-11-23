@@ -67,7 +67,7 @@ const Pin = ({ number, amount, pin, setPin, handleNext }) => {
       {/* Confirm PIN Button */}
       <button
         // className="w-full py-3 bg-green-500 text-white font-bold rounded shadow-md hover:bg-green-600"
-        className={`w-full py-3 bg-green-500 text-white font-bold rounded shadow-md ${
+        className={`w-full py-3 font-bold rounded shadow-md ${
           pin.length > 0
             ? "bg-green-500 text-white"
             : "bg-gray-400 text-gray-300"

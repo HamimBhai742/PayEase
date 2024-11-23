@@ -78,7 +78,7 @@ const TapToHold = ({
         onTouchEnd={handleHoldEnd}
       >
         <span className="text-white font-bold">
-          {isSending ? "Sending..." : "Tap and hold for Cash Out"}
+          {isSending ? "Processing..." : "Tap and hold for Cash Out"}
         </span>
       </div>
     </div>
