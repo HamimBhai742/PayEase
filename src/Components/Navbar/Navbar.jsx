@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import BlanceCheck from "../BlanceCheck/BlanceCheck";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -28,28 +29,28 @@ const Navbar = () => {
       };
     }, []);
   return (
-    <div className="flex justify-between items-center max-w-sm mx-auto">
-      <div className="flex gap-1 items-center">
+    <div className="flex justify-between items-center max-w-md mx-auto bg-green-300">
+      <div className="flex items-center">
         <figure>
           <img
             className="w-24"
-            src="../../../Image/Abstract Colorful Technology Solutions Professional Logo (3).png"
+            src="../../../Image/Abstract_Colorful_Technology_Solutions_Professional_Logo__3_-removebg-preview.png"
             alt=""
           />
         </figure>
-        <div>
+        <div className="-ml-4">
           <h5>User Name</h5>
-          <h4>User Blance</h4>
+          <BlanceCheck/>
         </div>
       </div>
 
       <div>
         <figure >
           <img
-            src="../../../Image/Abstract Colorful Technology Solutions Professional Logo (3).png"
+            src="../../../Image/Abstract_Colorful_Technology_Solutions_Professional_Logo__3_-removebg-preview.png"
             alt="Logo"
             onClick={toggleSidebar}
-            className="h-10 w-10 cursor-pointer"
+            className="w-24 cursor-pointer"
             id="logo"
           />
 
