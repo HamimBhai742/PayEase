@@ -1,6 +1,7 @@
 import React from "react";
 
-const TableBody = ({ user }) => {
+const TableBody = ({ user, handleApprovedBtn }) => {
+  console.log(user);
   return (
     <tr className="hover:bg-gray-100">
       <td className="px-6 py-4 text-gray-700 text-sm">{user.name}</td>
@@ -29,6 +30,7 @@ const TableBody = ({ user }) => {
       </td>
       <td className="border border-gray-300 px-4 py-2 border-none">
         <select
+          onChange={(e) => handleApprovedBtn(user?._id, e.target.value)}
           defaultValue={user.status}
           className="border border-none outline-none px-2 py-1"
         >

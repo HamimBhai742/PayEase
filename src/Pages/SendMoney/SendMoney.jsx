@@ -9,6 +9,8 @@ import Amount from "../../Components/Amount/Amount";
 import Pin from "../../Components/Pin/Pin";
 import TapToHold from "../../Components/TapToHold/TapToHold";
 import SendMoneySuccess from "../../Components/SenMoneySuccess/SendMoneySuccess";
+import useUser from "../../hooks/useUser";
+import useAllUser from "../../hooks/useAllUsers";
 
 const SendMoney = () => {
   const [step, setStep] = useState(1);
@@ -20,6 +22,8 @@ const SendMoney = () => {
   const [loading, setLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
+  const [user] = useUser();
+  const [allUsers] = useAllUser();
   const handleHoldStart = () => {
     setIsSending(true);
   };
@@ -38,7 +42,30 @@ const SendMoney = () => {
     } else if (step === 3 && !pin) {
       toast.error("Please enter your PIN!");
     } else {
-      setStep(step + 1);
+      // setStep(step + 1);
+    }
+    const fiUser = allUsers.find((u) => u.phone == number);
+    console.log(fiUser);
+    if (step === 1 && step === 1 && number) {
+      if (!fiUser) return toast.error("User number is bhul.");
+      if (fiUser?.role !== "user") {
+        return toast.error(
+          "Send money is not posible. Please try valid user number"
+        );
+      }
+      if (user?.phone === number) {
+        return toast.error("You can't send money own number");
+      }
+      if (fiUser) {
+        setStep(step + 1);
+      }
+    }
+    if (step === 2 && amount) {
+      if (fiUser.amount < amount)
+        return toast.error("Not enough blance for send money");
+      if (amount) {
+        setStep(step + 1);
+      }
     }
   };
 
@@ -76,11 +103,7 @@ const SendMoney = () => {
         </button>
         <h2 className="text-lg font-semibold ">Send Money</h2>
         <figure>
-          <img
-            className="w-16"
-            src="./logo.png"
-            alt=""
-          />
+          <img className="w-16" src="./logo.png" alt="" />
         </figure>
       </div>
       <div className="w-full p-6">
@@ -98,6 +121,7 @@ const SendMoney = () => {
           <Amount
             number={number}
             amount={amount}
+            blance={user?.amount}
             setAmount={setAmount}
             handleNext={handleNext}
           />
@@ -128,9 +152,7 @@ const SendMoney = () => {
           />
         )}
         {/* Sen money successful */}
-        {step === 5 && (
-       <SendMoneySuccess note={note} number={number}/>
-        )}
+        {step === 5 && <SendMoneySuccess note={note} number={number} />}
 
         {/* Status Message */}
         {status && (

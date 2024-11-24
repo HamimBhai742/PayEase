@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion"; // Install with `npm install framer-motion`
 import { TbCoinTakaFilled } from "react-icons/tb";
 
-const BlanceCheck = () => {
+const BlanceCheck = ({ amount }) => {
   const [showBalance, setShowBalance] = useState(false);
-  const balance = 1250;
   const handelBlBtn = () => {
     setShowBalance(!showBalance);
     setTimeout(() => {
@@ -14,7 +13,7 @@ const BlanceCheck = () => {
   return (
     <div>
       <div
-        className="flex justify-center items-centerp-3 bg-gray-200 rounded-full cursor-pointer text-sm"
+        className="flex justify-center items-centerp-3 bg-gray-200 rounded-full cursor-pointer text-sm mt-1"
         onClick={handelBlBtn}
       >
         {showBalance ? (
@@ -24,7 +23,7 @@ const BlanceCheck = () => {
             transition={{ duration: 0.5 }}
             className="font-semibold text-green-600 py-1 px-3"
           >
-            ৳ {balance}
+            ৳ {amount}
           </motion.div>
         ) : (
           <span className="text-gray-500 px-3 py-1 flex items-center gap-1">

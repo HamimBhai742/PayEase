@@ -6,7 +6,6 @@ const useAxiosSecure = () => {
   axiosSucre.interceptors.request.use(
     function (config) {
           const token = localStorage.getItem("token");
-          console.log(token)
       config.headers.authorization = `Bearer ${token}`;
       return config;
     },
@@ -16,12 +15,10 @@ const useAxiosSecure = () => {
   );
   axiosSucre.interceptors.response.use(
     function (response) {
-      console.log(response);
       return response;
     },
     async (error) => {
       const status = error?.response?.status;
-      console.log(status);
       if (status === 401 || status === 403) {
       }
       return Promise.reject(error);

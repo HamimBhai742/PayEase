@@ -36,14 +36,14 @@ const Navbar = () => {
     toast.success("Logout Successful");
   };
   return (
-    <div className="flex justify-between items-center max-w-md mx-auto bg-green-300">
-      <div className="flex items-center">
+    <div className="flex justify-between items-center max-w-md mx-auto bg-green-300 pl-3">
+      <div className="flex items-center gap-3">
         <figure>
-          <img className="w-24" src="./logo.png" alt="" />
+          <img className="w-16 h-16 rounded-full" src={user?.image} alt="" />
         </figure>
-        <div className="-ml-4">
-          <h5>User Name</h5>
-          <BlanceCheck />
+        <div className="">
+          <h5 className="font-medium text-base">{user?.name}</h5>
+          <BlanceCheck amount={user?.amount} />
         </div>
       </div>
 

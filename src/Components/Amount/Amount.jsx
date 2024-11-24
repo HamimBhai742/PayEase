@@ -1,7 +1,7 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 
-const Amount = ({number,amount,setAmount,handleNext}) => {
+const Amount = ({number,amount,setAmount,handleNext,blance}) => {
   return (
     <div>
       <label className="block text-gray-500 font-bold mb-2">Recipient</label>
@@ -17,17 +17,25 @@ const Amount = ({number,amount,setAmount,handleNext}) => {
       {/* Amount Section */}
       <div className="mb-6">
         <label className="block text-gray-500 font-bold mb-2">Amount</label>
-        <div className="flex items-center border-b border-gray-300 pb-2">
+        <div
+          className={`flex items-center border-b border-gray-300 pb-2 ${
+            amount <= blance ? "text-gray-700" : "text-red-700 border-red-700"
+          }`}
+        >
           <span className="text-2xl font-bold text-gray-400">৳</span>
           <input
             type="number"
-            className="w-full ml-2 text-2xl font-bold text-gray-700 placeholder-gray-400 focus:outline-none"
+            className={`w-full ml-2 text-2xl font-bold  placeholder-gray-400 focus:outline-none ${
+              amount <= blance ? "text-green-700" : "text-red-700"
+            }`}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="0"
           />
         </div>
-        <p className="text-gray-500 text-sm mt-2">Available Balance: ৳97.00</p>
+        <p className="text-gray-500 text-sm mt-2">
+          Available Balance: ৳ {blance}
+        </p>
       </div>
       {/* Purpose Section */}
       <div className="mb-6">

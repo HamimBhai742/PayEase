@@ -5,10 +5,15 @@ import { Link } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useSecureAxios";
 import { FaSpinner } from "react-icons/fa";
 import TableBody from "./TableBody";
+import toast from "react-hot-toast";
 
 const UserManagement = () => {
   const axiosSucre = useAxiosSecure();
-  const { data: users, isPending } = useQuery({
+  const {
+    data: users,
+    isPending,
+    refetch,
+  } = useQuery({
     queryKey: ["all-users"],
     queryFn: async () => {
       const { data } = await axiosSucre.get("/all-users");
@@ -16,6 +21,22 @@ const UserManagement = () => {
     },
   });
   console.log(users);
+
+  const handleApprovedBtn = async (id, value) => {
+    console.log(id, value);
+    try {
+      const fiUser = users.find((u) => u._id == id);
+      // console.log(fiUser)
+      const { data } = await axiosSucre.put(`/user-update/${id}`, fiUser);
+      console.log(data);
+        if (data) {
+          toast.success(data.message)
+        refetch();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="max-w-md mx-auto">
       <div className="flex w-full justify-between items-center bg-green-500 text-white px-3">
@@ -41,12 +62,17 @@ const UserManagement = () => {
                     Status
                   </th>
                   <th class="px-6 py-3 text-left text-sm font-medium">Role</th>
-                  <th class="px-6 py-3 text-left text-sm font-medium">Action</th>
+                  <th class="px-6 py-3 text-left text-sm font-medium">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <TableBody user={user} />
+                  <TableBody
+                    user={user}
+                    handleApprovedBtn={handleApprovedBtn}
+                  />
                 ))}
               </tbody>
             </table>
