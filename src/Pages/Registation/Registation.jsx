@@ -3,10 +3,15 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { imgUpload } from "../../Components/ImageUpload";
 import useAxiosPublic from "../../hooks/usePublicAxios";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { PiSpinnerBallDuotone } from "react-icons/pi";
 
 const SignUpPage = () => {
   const [image, setImage] = useState(null);
   const axiosPublic = useAxiosPublic();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -19,20 +24,33 @@ const SignUpPage = () => {
   };
 
   const onSubmit = async (data) => {
+    setLoading(true);
     console.log("Form Data: ", data);
     const img = { image: data.image[0] };
     console.log(img);
     const imageF = await imgUpload(img);
     console.log(imageF);
-      const { email, phone, role, pin,name } = data
-      const userData = {
-          email,phone,role,pin,image:imageF,name
-      }
-      console.log(userData)
+    const { email, phone, role, pin, name } = data;
+    const userData = {
+      email,
+      phone,
+      role,
+      pin,
+      image: imageF,
+      name,
+    };
+    console.log(userData);
     try {
-        const { data } = await axiosPublic.post("/auth/register", userData);
-        console.log(data)
-    } catch (err) {}
+      const { data } = await axiosPublic.post("/auth/register", userData);
+      console.log(data);
+      if (data.message) {
+        toast.success(data.message);
+        navigate("/login");
+        setLoading(false);
+      }
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -109,7 +127,7 @@ const SignUpPage = () => {
               {...register("phone", {
                 required: "Phone number is required",
                 pattern: {
-                  value: /^01[3,4,9,6,7,5][0-9]{9}$/,
+                  value: /^01[3,4,9,6,7,5][0-9]{8}$/,
                   message:
                     "Invalid BD phone number. Must start with 01 and be 11 digits",
                 },
@@ -213,7 +231,7 @@ const SignUpPage = () => {
             type="submit"
             className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 rounded-lg transition duration-200"
           >
-            Sign Up
+            {loading ? <PiSpinnerBallDuotone className="m-auto text-xl animate-spin"/> : " Sign Up"}
           </button>
         </form>
 

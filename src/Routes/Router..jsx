@@ -6,6 +6,8 @@ import CashOut from "../Pages/CashOut/CashOut";
 import LoginPage from "../Pages/Login/Login";
 import ProtectRoute from "./ProtectRoute/ProtectRoute";
 import SignUpPage from "../Pages/Registation/Registation";
+import UserManagement from "../Pages/UserManagement/UserManagement";
+import Transaction from "../Pages/Transaction/Transaction";
 
 const router = createBrowserRouter([
   {
@@ -36,8 +38,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    element:<SignUpPage/>
-  }
+    element: <SignUpPage />,
+  },
+  {
+    path: "/user-management",
+    element: <UserManagement />,
+  },
+  {
+    path: "/all-transaction",
+    element: <Transaction />,
+  },
 ]);
 
 export default router;

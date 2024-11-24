@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../../hooks/usePublicAxios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../hooks/useSecureAxios";
+import { PiSpinnerBallDuotone } from "react-icons/pi";
+import useAllUser from "../../hooks/useAllUsers";
 
 const LoginPage = () => {
   const {
@@ -8,11 +13,35 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
+  const [loading, setLoading] = useState(false);
+  const [allUsers] = useAllUser();
+  console.log(allUsers)
   const onSubmit = async (userData) => {
-    const { phone, pin } = userData;
+    setLoading(true);
+    const isPendingUser = allUsers.find((u) => u.phone == userData.phone);
+    if (isPendingUser.status === "Pending") {
+      setLoading(false)
+      return toast.error(
+        "You can't not approved for login👊 Please wait for admin approval."
+      );
+    }
+    try {
       const { data } = await axiosPublic.post("/auth/login", userData);
-      console.log(data)
+      console.log(data);
+      if (data?.token) {
+        setLoading(false);
+        localStorage.setItem("token", data?.token);
+        localStorage.setItem("email", data?.user.email);
+        localStorage.setItem("phone", data?.user.phone);
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err.response.data?.error);
+      setLoading(false);
+      toast.error(err.response.data?.error);
+    }
   };
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-100 to-gray-100 flex items-center justify-center">
@@ -35,7 +64,7 @@ const LoginPage = () => {
               type="text"
               id="phone"
               placeholder="Enter your mobile number"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               {...register("phone")}
             />
           </div>
@@ -51,7 +80,7 @@ const LoginPage = () => {
               type="password"
               id="pin"
               placeholder="Enter your 4-digit PIN"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               {...register("pin")}
             />
           </div>
@@ -69,7 +98,11 @@ const LoginPage = () => {
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg transition duration-200"
           >
-            Log In
+            {loading ? (
+              <PiSpinnerBallDuotone className="m-auto text-xl animate-spin" />
+            ) : (
+              "Log In"
+            )}
           </button>
         </form>
 
