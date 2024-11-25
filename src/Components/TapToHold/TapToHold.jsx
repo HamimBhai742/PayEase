@@ -1,6 +1,22 @@
 import React from "react";
 
-const TapToHold = ({handelPrevBtn,handleHoldEnd,handleHoldStart,number,note,isSending}) => {
+const TapToHold = ({
+  handelPrevBtn,
+  handleHoldEnd,
+  handleHoldStart,
+  number,
+  note,
+  isSending,
+  user,
+  blance,
+  amount,
+}) => {
+  let charge = parseFloat(5);
+  let noCharge = parseFloat(0);
+  let bl = parseFloat(amount);
+  let av = parseFloat(blance - bl);
+  let totalAmountWithCharge = parseFloat(bl + charge);
+  let totalAmountWithNoCharge = parseFloat(bl + noCharge);
   return (
     <div>
       <div className="flex justify-between">
@@ -24,11 +40,11 @@ const TapToHold = ({handelPrevBtn,handleHoldEnd,handleHoldStart,number,note,isSe
         {/* Recipient Details */}
         <div className="flex items-center gap-4 mb-6">
           <div className="w-12 h-12 rounded-full bg-green-200 flex items-center justify-center text-green-700 font-bold text-lg">
-            {number.slice(0, 1)}
+            {user?.name.slice(0, 1)}
           </div>
           <div>
-            <p className="text-gray-700 font-bold">{number}</p>
-            <p className="text-gray-500 text-sm">{number}</p>
+            <p className="text-gray-700 font-bold">{user?.name}</p>
+            <p className="text-gray-500 text-sm">{user?.phone}</p>
           </div>
         </div>
 
@@ -36,12 +52,21 @@ const TapToHold = ({handelPrevBtn,handleHoldEnd,handleHoldStart,number,note,isSe
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div>
             <p className="text-gray-500 text-sm">Total</p>
-            <p className="text-gray-700 font-bold text-lg">৳1.00</p>
-            <p className="text-gray-500 text-sm">+ No charge</p>
+            <p className="text-gray-700 font-bold text-lg">
+              ৳{" "}
+              {amount >= 100
+                ? totalAmountWithCharge.toFixed(2)
+                : totalAmountWithNoCharge.toFixed(2)}
+            </p>
+            <p className="text-gray-500 text-sm">
+              +{" "}{amount >= 100 ?` ৳ ${charge.toFixed(2)}` : "No charge"}
+            </p>
           </div>
           <div>
             <p className="text-gray-500 text-sm">New Balance</p>
-            <p className="text-gray-700 font-bold text-lg">৳97.00</p>
+            <p className="text-gray-700 font-bold text-lg">
+              ৳ {amount >= 100 ? (av - charge).toFixed(2) : av.toFixed(0)}
+            </p>
           </div>
         </div>
 

@@ -1,17 +1,18 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { MdVerifiedUser } from "react-icons/md";
 
-const Amount = ({number,amount,setAmount,handleNext,blance}) => {
+const Amount = ({number,amount,setAmount,handleNext,user,blance}) => {
   return (
     <div>
       <label className="block text-gray-500 font-bold mb-2">Recipient</label>
       <div className="flex items-center gap-4 mb-6">
         <div className="w-12 h-12 rounded-full bg-green-200 flex items-center justify-center text-green-700 font-bold text-lg">
-          {number.slice(0, 1)}
+          {user?.name.slice(0, 1)}
         </div>
         <div>
-          <p className="text-gray-700 font-bold">{number}</p>
-          <p className="text-gray-500 text-sm">{number}</p>
+          <p className="text-gray-700 font-bold">{user?.name}</p>
+          <p className="text-gray-500 text-sm">{user?.phone}</p>
         </div>
       </div>
       {/* Amount Section */}
@@ -49,12 +50,16 @@ const Amount = ({number,amount,setAmount,handleNext,blance}) => {
           ].map((item, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center cursor-pointer"
+              className="flex flex-col items-center text-center cursor-pointer relative"
             >
               <div className="w-12 h-12 flex items-center justify-center bg-pink-100 text-pink-500 rounded-full text-lg">
                 {item.icon}
               </div>
               <p className="text-gray-700 text-sm mt-2">{item.label}</p>
+              <span className="text-green-500 absolute bottom-5 text-lg left-7">
+                {" "}
+                <MdVerifiedUser />
+              </span>
             </div>
           ))}
         </div>
