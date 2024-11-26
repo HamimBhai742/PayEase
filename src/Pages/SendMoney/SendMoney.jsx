@@ -12,6 +12,7 @@ import SendMoneySuccess from "../../Components/SenMoneySuccess/SendMoneySuccess"
 import useUser from "../../hooks/useUser";
 import useAllUser from "../../hooks/useAllUsers";
 import useAxiosPublic from "../../hooks/usePublicAxios";
+import useAxiosSecure from "../../hooks/useSecureAxios";
 
 const SendMoney = () => {
   const [step, setStep] = useState(1);
@@ -21,6 +22,7 @@ const SendMoney = () => {
   const [pin, setPin] = useState("");
   const [status, setStatus] = useState("");
   const axiosPublic = useAxiosPublic();
+  const [count, setCount] = useState(5);
   const [note, setNote] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -28,15 +30,7 @@ const SendMoney = () => {
   const navigate = useNavigate();
   const [user] = useUser();
   const [allUsers] = useAllUser();
-  const handleHoldStart = () => {
-    setIsSending(true);
-  };
-
-  const handleHoldEnd = () => {
-    setIsSending(false);
-    setStep(step + 1);
-    alert("Money Sent Successfully!");
-  };
+  const axiosSucre = useAxiosSecure();
 
   const handlePinChange = (e) => {
     const value = e.target.value;
@@ -102,6 +96,37 @@ const SendMoney = () => {
       // Example usage
       const userData = { phone: user?.phone, pin: pin };
       handleLogin(userData);
+    }
+    if (step === 4) {
+      setIsSending(true);
+      setTimeout(async () => {
+        setIsSending(false);
+        try {
+          const { data } = await axiosSucre.put(
+            `/update-user-amount?email=${user.email}&&emailFi=${fiUser.email}&&amount=${amount}`
+          );
+
+          console.log(data);
+          toast.success("Sendmoney Success");
+        } catch (err) {
+          setIsSending(false);
+          // toast.error()
+          console.log(err);
+        }
+        // setStep(step + 1);
+      }, [5000]);
+      let i = 5; // Initialize the counter
+
+      function countdown() {
+        if (i >= 0) {
+          setCount(i); // Log the current value
+          i--; // Decrement the counter
+          setTimeout(countdown, 1000); // Call the function again after 1 second
+        } else {
+          console.log("Complete"); // Log completion message
+        }
+      }
+      countdown();
     }
   };
 
@@ -185,14 +210,14 @@ const SendMoney = () => {
         {step === 4 && (
           <TapToHold
             handelPrevBtn={handelPrevBtn}
-            handleHoldEnd={handleHoldEnd}
-            handleHoldStart={handleHoldStart}
+            handleNext={handleNext}
             note={note}
             number={number}
             amount={amount}
             isSending={isSending}
             user={fiUser}
             blance={user?.amount}
+            count={count}
           />
         )}
         {/* Sen money successful */}

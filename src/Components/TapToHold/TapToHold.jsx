@@ -1,15 +1,16 @@
 import React from "react";
+import { ImSpinner2 } from "react-icons/im";
+
 
 const TapToHold = ({
   handelPrevBtn,
-  handleHoldEnd,
-  handleHoldStart,
-  number,
   note,
   isSending,
   user,
   blance,
   amount,
+  handleNext,
+  count,
 }) => {
   let charge = parseFloat(5);
   let noCharge = parseFloat(0);
@@ -59,7 +60,7 @@ const TapToHold = ({
                 : totalAmountWithNoCharge.toFixed(2)}
             </p>
             <p className="text-gray-500 text-sm">
-              +{" "}{amount >= 100 ?` ৳ ${charge.toFixed(2)}` : "No charge"}
+              + {amount >= 100 ? ` ৳ ${charge.toFixed(2)}` : "No charge"}
             </p>
           </div>
           <div>
@@ -78,19 +79,30 @@ const TapToHold = ({
       </div>
 
       {/* Tap and Hold Button */}
-      <div
+      <button
+        onClick={handleNext}
         className={`mt-10 w-full max-w-lg bg-green-500 rounded-full py-3 flex items-center justify-center cursor-pointer transition-transform ${
           isSending ? "scale-95" : ""
         }`}
-        onMouseDown={handleHoldStart}
-        onMouseUp={handleHoldEnd}
-        onTouchStart={handleHoldStart}
-        onTouchEnd={handleHoldEnd}
       >
         <span className="text-white font-bold">
-          {isSending ? "Sending..." : "Tap and hold for Send Money"}
+          {isSending ? (
+            <p className="flex items-center gap-3">
+              Sending
+              <p className="relative">
+                <ImSpinner2 className="text-3xl animate-spin" />
+                <span className="text-sm absolute top-1 left-0 right-0">
+                  {count}
+                </span>
+              </p>
+              {/* {" "} */}
+              {/* ({count}) */}
+            </p>
+          ) : (
+            "Tap and hold for Send Money"
+          )}
         </span>
-      </div>
+      </button>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import ProtectRoute from "./ProtectRoute/ProtectRoute";
 import SignUpPage from "../Pages/Registation/Registation";
 import UserManagement from "../Pages/UserManagement/UserManagement";
 import Transaction from "../Pages/Transaction/Transaction";
+import History from "../Pages/History/History";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: "/all-transaction",
     element: <Transaction />,
+  },
+  {
+    path: "/history",
+    element: <History />,
   },
 ]);
 

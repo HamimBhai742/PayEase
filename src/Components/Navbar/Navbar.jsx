@@ -84,6 +84,11 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="p-4 hover:bg-gray-100">
+                <Link to="/history" onClick={closeSidebar}>
+                  History
+                </Link>
+              </li>
+              <li className="p-4 hover:bg-gray-100">
                 <button onClick={handelLogOutBtn}>Logout</button>
               </li>
             </ul>
